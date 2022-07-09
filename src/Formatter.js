@@ -15,15 +15,22 @@ import '@fontsource/roboto/700.css';
 const Flex = styled.div`
     display: flex;
     flex-direction: row;
-    gap: 50px;
-    justify-content: center;
+    gap: ${props=>props.xsBP?"10px":"50px"};
+    justify-content: ${props=>props.xsBP?"left":"center"};
 `
 const Box = styled.div`
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 40px;
     justify-content: ${props=>props.left?"left":"right"};
     margin-bottom: 35px;
+    margin-left: 30px;
+`
+const Result = styled.div`
+    margin-right: 20px;
+`
+
+const XsButton = styled.div`
     margin-left: 30px;
 `
 
@@ -57,7 +64,7 @@ const Button = styled.button`
     }
 `
 
-function Formatter() {
+function Formatter({ width, breakPoint}) {
 
     const inputFile = useRef(null)
     const [files, setFiles] = useState('')
@@ -65,6 +72,7 @@ function Formatter() {
     const [tooltipIsOpen, setTooltipIsOpen] = useState(false);
     const [tooltipDownload, setTooltipDownload] = useState(false);
     const [formatted, setFormatted] = useState(null)
+
     const {getRootProps, getInputProps, isDragActive} = useDropzone({
         accept: {
             "application/json": ['.json']
@@ -125,8 +133,10 @@ function Formatter() {
     }
 
     return (
-        <Flex>
-            <div {...getRootProps()} onClick={(e)=>e.stopPropagation()}>
+        <Flex xsBP={width<750}>
+            {
+                width > breakPoint && 
+                <div {...getRootProps()} onClick={(e)=>e.stopPropagation()}>
                 <Box left>
                     <div>
                         <Button onClick={() => inputFile.current.click()} >upload a file</Button>
@@ -134,34 +144,42 @@ function Formatter() {
                     </div>
                 </Box>
                 <input {...getInputProps()} />
-                <Monaco formatted={files} isDropActive={isDragActive} landingDrop={landingdrop} readOnly={false} update={update} />
+                <Monaco formatted={files} isDropActive={isDragActive} landingDrop={landingdrop} readOnly={false} update={update} mBP={width<1300 && width>1080}/>
             </div>   
-            <div>
+            }
+            <Result>
                 <Box right>
-                <Tooltip
-                    open={tooltipIsOpen}
-                    disableHoverListener
-                    arrow
-                    placement="top"
-                    onOpen={() => setTooltipIsOpen(true)}
-                    onClose={() => setTooltipIsOpen(false)}
-                    title={<Typography fontSize={15}>Copied to the clipboard!</Typography>}>
-                        <Button onClick={()=>{navigator.clipboard.writeText(formatted);setTooltipIsOpen(!tooltipIsOpen)}}>copy</Button>
-                </Tooltip>
-                <Tooltip
-                    open={tooltipDownload}
-                    disableHoverListener
-                    arrow
-                    placement="top"
-                    onOpen={() => setTooltipDownload(true)}
-                    onClose={() => setTooltipDownload(false)}
-                    title={<Typography fontSize={15}>No data available</Typography>}>
-                        <Button onClick={download} >download</Button>
-                </Tooltip>
-                    
+                    <Tooltip
+                        open={tooltipIsOpen}
+                        disableHoverListener
+                        arrow
+                        placement="top"
+                        onOpen={() => setTooltipIsOpen(true)}
+                        onClose={() => setTooltipIsOpen(false)}
+                        title={<Typography fontSize={15}>Copied to the clipboard!</Typography>}>
+                            <Button onClick={()=>{navigator.clipboard.writeText(formatted);setTooltipIsOpen(!tooltipIsOpen)}}>copy</Button>
+                    </Tooltip>
+                    <Tooltip
+                        open={tooltipDownload}
+                        disableHoverListener
+                        arrow
+                        placement="top"
+                        onOpen={() => setTooltipDownload(true)}
+                        onClose={() => setTooltipDownload(false)}
+                        title={<Typography fontSize={15}>No data available</Typography>}>
+                            <Button onClick={download} >download</Button>
+                    </Tooltip> 
                 </Box>
-                <Monaco formatted={formatted} readOnly={true} />
-            </div>
+                <Monaco formatted={formatted} readOnly={true} xsBP={width<660} mBP={width<1300 && width>1080} />
+                {
+                        width<breakPoint && (
+                        <XsButton>
+                            <Button onClick={() => inputFile.current.click()} >upload</Button>
+                            <input type="file" ref={inputFile} accept="application/json" style={{"display":"none"}} onChange={upload}/>
+                        </XsButton>
+                        )
+                    }
+            </Result>
 
         </Flex>
     )

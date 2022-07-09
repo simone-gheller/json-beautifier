@@ -8,10 +8,10 @@ import '@fontsource/roboto/700.css';
 const Wrapper = styled.div`
     position: absolute;
     height: 52vh;
-    width: 80vh;
+    width: ${props=>props.mBP?"60vh":"80vh"};
     top: -5%;
     left: 0;
-    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='28' ry='28' stroke='%23333' stroke-width='18' stroke-dasharray='20%2c 23%2c 8%2c 12' stroke-dashoffset='20' stroke-linecap='square'/%3e%3c/svg%3e");
+    background-image:url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='28' ry='28' stroke='%23333' stroke-width='18' stroke-dasharray='20%2c 23%2c 8%2c 12' stroke-dashoffset='20' stroke-linecap='square'/%3e%3c/svg%3e");
     border-radius: 28px;
     padding: 15px;
     overflow: visible;
@@ -41,7 +41,7 @@ const TextDrop= styled.div`
 const FirstDrop= styled.div`
     position: absolute;
     height: 52vh;
-    width: 80vh;
+    width: ${props=>props.mBP?"60vh":"80vh"};
     top: -5%;
     left: 0;
     padding: 15px;
@@ -59,6 +59,8 @@ const FirstDrop= styled.div`
 
 const Mon= styled.div`
   position: relative;
+
+
 `
 const Layer= styled.div`
   opacity: ${props=>props.isDropActive?'0.15':'1'
@@ -66,12 +68,12 @@ const Layer= styled.div`
 `
 
 
-function Monaco({ formatted, isDropActive, landingDrop, readOnly, update }) {
+function Monaco({ formatted, isDropActive, landingDrop, readOnly, update, xsBP, mBP }) {
     return (
-        <Mon>
+        <Mon xsBP={xsBP} >
             {
                 isDropActive && (
-                    <Wrapper>
+                    <Wrapper mBP={mBP}>
                         <TextDrop>
                             <h2>Drop here your JSON</h2>
                             <h4>or</h4>
@@ -82,7 +84,7 @@ function Monaco({ formatted, isDropActive, landingDrop, readOnly, update }) {
             }
             {
                 landingDrop && (
-                    <FirstDrop>
+                    <FirstDrop mBP={mBP}>
                         <TextDrop>
                             <h2>Drop here your JSON</h2>
                             <h4>or</h4>
@@ -95,7 +97,7 @@ function Monaco({ formatted, isDropActive, landingDrop, readOnly, update }) {
                 <Editor
                 style={{opacity: 0.4}}
                 height="50vh"
-                width="80vh"
+                width={xsBP?"45vh":mBP?"60vh":"80vh"}
                 options = {{
                     readOnly: readOnly,
                     overviewRulerLanes: 0,
@@ -103,6 +105,7 @@ function Monaco({ formatted, isDropActive, landingDrop, readOnly, update }) {
                     wordWrap: 'wordWrapColumn',
                     wordWrapColumn: 65,
                 }}
+                automaticLayout='true'
                 defaultLanguage="json"
                 defaultValue={readOnly?`{
     "hello": "world"

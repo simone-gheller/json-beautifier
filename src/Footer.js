@@ -1,10 +1,10 @@
 import {FooterDiv, Us, Logo, Links, Aboutus, Copyright, Title, Title2} from './Footer-style.js'
 
-function Footer() {
+function Footer({ width }) {
   return (
     <FooterDiv>
-        <Us>
-            <Logo>
+        <Us xsBP={width<750}>
+            <Logo xsBP={width<750}>
             <Title>JSON</Title>
             <Title2>prettier</Title2>
             </Logo>
@@ -15,13 +15,20 @@ function Footer() {
             </Links>
             <Aboutus>
                 <h5>About</h5>
-                <p>JSON is a wide-spread file format used for data rapresentation, infact it's a data-only language. Even tough a JSON file is supposed to be human-readable, sometimes server or apps minimize their contents and the results can be tough to read. So when it happens prettify it!</p>
+                {
+                width<960?(
+                <p>JSON is a wide-spread file format used for data rapresentation, when it's not formatted well use this prettifier! </p>
+                ):(
+                <p>JSON is a wide-spread file format used for data rapresentation, infact it's a data-only language. Sometimes server or apps minimize their contents and the results can be tough to read, so when it happens prettify it!</p>
+                    )
+
+                }
             </Aboutus>
         </Us>
-        <Copyright>
+        <Copyright xsBP={width<750} >
             <a href="/terms">Terms of Use</a>
             <a href="/privacy">Privacy Policy</a>
-            <a href="/sitemap">Sitemap</a>
+            <a href="/sitemap.xml">Sitemap</a>
             <p>&copy; 2022 AKAdev</p>
         </Copyright>
     </FooterDiv>
