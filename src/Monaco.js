@@ -7,7 +7,7 @@ import '@fontsource/roboto/700.css';
 
 const Wrapper = styled.div`
     position: absolute;
-    height: 52vh;
+    height: 47vh;
     width: ${props=>props.mBP?"60vh":"80vh"};
     top: -5%;
     left: 0;
@@ -40,7 +40,7 @@ const TextDrop= styled.div`
 
 const FirstDrop= styled.div`
     position: absolute;
-    height: 52vh;
+    height: 47vh;
     width: ${props=>props.mBP?"60vh":"80vh"};
     top: -5%;
     left: 0;
@@ -65,6 +65,20 @@ const Mon= styled.div`
 const Layer= styled.div`
   opacity: ${props=>props.isDropActive?'0.15':'1'
   };
+`
+const Test= styled.div`
+    position: absolute;
+    height: 47vh;
+    width: ${props=>props.mBP?"60vh":"80vh"};
+    top: -5%;
+    left: 0;
+    padding: 15px;
+    overflow: visible;
+    z-index: 10;
+    opacity: 0.3;
+    pointer-events: none;
+    border: 2px solid #A6A6A6;
+    background-color:#E6E6E6;
 `
 
 
@@ -93,10 +107,12 @@ function Monaco({ formatted, isDropActive, landingDrop, readOnly, update, xsBP, 
                     </FirstDrop>
                 )
             }
+            <Test mBP={mBP}>
+            </Test>
             <Layer isDropActive={isDropActive}>
                 <Editor
                 style={{opacity: 0.4}}
-                height="50vh"
+                height="45vh"
                 width={xsBP?"45vh":mBP?"60vh":"80vh"}
                 options = {{
                     readOnly: readOnly,

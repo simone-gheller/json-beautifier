@@ -132,6 +132,15 @@ function Formatter({ width, breakPoint}) {
         saveAs(new Blob([formatted], {type: 'application/json'}),"pretty.json")
     }
 
+    function copy(){
+        if(formatted == null){
+            return;
+        }
+        navigator.clipboard.writeText(formatted);
+        setTooltipIsOpen(!tooltipIsOpen);
+
+    }
+
     return (
         <Flex xsBP={width<750}>
             {
@@ -157,7 +166,7 @@ function Formatter({ width, breakPoint}) {
                         onOpen={() => setTooltipIsOpen(true)}
                         onClose={() => setTooltipIsOpen(false)}
                         title={<Typography fontSize={15}>Copied to the clipboard!</Typography>}>
-                            <Button onClick={()=>{navigator.clipboard.writeText(formatted);setTooltipIsOpen(!tooltipIsOpen)}}>copy</Button>
+                            <Button onClick={copy}>copy</Button>
                     </Tooltip>
                     <Tooltip
                         open={tooltipDownload}
