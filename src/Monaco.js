@@ -79,6 +79,8 @@ const Test= styled.div`
     pointer-events: none;
     border: 2px solid #A6A6A6;
     background-color:#E6E6E6;
+    border-radius: ${props=>props.isDropActive?"28px":"0px"};
+    border: ${props=>props.isDropActive?"0px solid #A6A6A6":"2px solid #A6A6A6"};
 `
 
 
@@ -107,8 +109,7 @@ function Monaco({ formatted, isDropActive, landingDrop, readOnly, update, xsBP, 
                     </FirstDrop>
                 )
             }
-            <Test mBP={mBP}>
-            </Test>
+            <Test mBP={mBP} isDropActive={isDropActive} />
             <Layer isDropActive={isDropActive}>
                 <Editor
                 style={{opacity: 0.4}}
